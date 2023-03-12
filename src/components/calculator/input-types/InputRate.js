@@ -7,7 +7,7 @@ const propTypes = {};
 const defaultProps = {};
 
 
-const InputRate = ({ formValue, handleInputChange }) => {
+const InputRate = ({ formValue, handleInputChange, label }) => {
 
     const { rate } = formValue;
 
@@ -20,7 +20,7 @@ const InputRate = ({ formValue, handleInputChange }) => {
             posfix="%"
             name="rate"
             id="id_rate_input"
-            label={`Tasa de rendimiento`}
+            label={label}
             value={rate}
             onChange={rateHandler} />
     );

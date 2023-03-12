@@ -7,7 +7,7 @@ const propTypes = {};
 const defaultProps = {};
 
 
-const InputSalary = ({ formValue, handleInputChange }) => {
+const InputSalary = ({ formValue, handleInputChange, label }) => {
 
     const { salary } = formValue;
 
@@ -21,7 +21,7 @@ const InputSalary = ({ formValue, handleInputChange }) => {
             prefix="$"
             name="salary"
             id="id_salary_input"
-            label="¿Cuánto te gustaría recibir mensualmente?"
+            label={label}
             value={salary}
             onChange={salaryHandler}
         />

@@ -49,7 +49,7 @@ const TagTextField = ({ name, label, accepter, helpBlock, prefix, posfix, ...res
                 className='w-100'
                 name={name} {...rest}
             />
-            <Form.HelpText>{helpBlock}</Form.HelpText>
+            {/* <Form.HelpText>{helpBlock}</Form.HelpText> */}
         </Form.Group >
     )
 }

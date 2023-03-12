@@ -6,10 +6,10 @@ import { GeneralContext } from '../../../GeneralContext';
 
 
 // import styles
-import styles from "./FormCalculatorPrincipal.module.css";
-import { BiExit, BiSend } from 'react-icons/bi';
+import styles from "./FormCalculatorSecondary.module.css";
+import { BiExit, BiSend, BiBarChartAlt, BiCalculator } from 'react-icons/bi';
 // logo
-import logo from "../../../media/retplan-logo.png";
+import logo from "../../../media/retplan-logo-2.png";
 
 // hooks / models / helpers / my components
 import model from '../../../models/calculator/formModel';
@@ -20,12 +20,13 @@ import { InputSalary } from '../input-types/InputSalary';
 import { InputRate } from '../input-types/InputRate';
 import { InputRateSlider } from '../input-types/InputRateSlider';
 import { InputMonthPay } from '../input-types/InputMonthPay';
+import FlexboxGridItem from 'rsuite/esm/FlexboxGrid/FlexboxGridItem';
 
 const propTypes = {};
 const defaultProps = {};
 
 
-const FormCalculatorPrincipal = () => {
+const FormCalculatorSecondary = () => {
     const navigate = useNavigate();
 
     const { formValue, handleInputChange, setFormError, setLoading, resetForm } = useForm({
@@ -58,8 +59,8 @@ const FormCalculatorPrincipal = () => {
                     }
                     console.log("Sucess!!!");
                     resetForm();
-                    // dispatch({ type: types.end });
-                    navigate('/secondary-calculator');
+                    dispatch({ type: types.end });
+                    navigate('/start');
                 });
 
 
@@ -79,23 +80,13 @@ const FormCalculatorPrincipal = () => {
     }
 
     return (
-        <div className={`container animate__animated animate__bounceInRight allHeightWidth v-a-middle ${styles.fondo}`}>
-            {/* <JSONView formValue={formValue} /> */}
+        <div className={`container animate__animated animate__bounceInRight allHeightWidth v-a-middle`}>
             <FlexboxGrid justify="center" >
-                <FlexboxGrid.Item as={Col} xs={20} md={14}>
+
+                <FlexboxGrid.Item as={Col} xs={24} >
                     <FlexboxGrid justify="center" className={`${styles.formStyle}`}>
-                        <FlexboxGrid.Item as={Col} xs={10} xsOffset={14} md={8} mdOffset={16} lg={6} lgOffset={18} className={`mt-4 ta-center`}>
-                            <Button
-                                color="red"
-                                appearance="ghost"
-                                endIcon={<BiExit />}
-                                onClick={handleEnd}
-                            >
-                                Salir
-                            </Button>
-                        </FlexboxGrid.Item>
                         {/* logo */}
-                        <FlexboxGrid.Item as={Col} xs={20}>
+                        <FlexboxGrid.Item className='mt-4' as={Col} xs={20}>
                             <img src={logo} className={styles.imgStyle} alt="logo" />
                         </FlexboxGrid.Item>
                         {/* título */}
@@ -103,7 +94,7 @@ const FormCalculatorPrincipal = () => {
                             <h4 id="id_bienvenida" className={styles.textCenter}>Comienza a ver el poder que tienen las inversiones sobre tu ahorro</h4>
                         </FlexboxGrid.Item>
                         {/* form */}
-                        <FlexboxGrid.Item as={Col} xs={20} className="mt-5">
+                        <FlexboxGridItem as={Col} xs={24}>
                             <Form
                                 // ref={formRef}
                                 formValue={{ salary, rate }}
@@ -111,40 +102,34 @@ const FormCalculatorPrincipal = () => {
                                 fluid
                                 model={model}
                             >
-                                <FlexboxGrid className={`mb-3 ${styles.vAEnd}`}>
+                                <FlexboxGrid justify="center" className={`my-5 ${styles.vAEnd}`}>
                                     {/* salary */}
-                                    <FlexboxGrid.Item as={Col} xs={24} lg={14}>
+                                    <FlexboxGrid.Item as={Col} xs={20} lg={5}>
                                         <InputSalary
                                             formValue={formValue}
                                             handleInputChange={handleInputChange}
-                                            label="¿Cuánto te gustaría recibir mensualmente?"
+                                            label="Sueldo mensual deseado"
                                         />
                                     </FlexboxGrid.Item>
                                     {/* rate */}
-                                    <FlexboxGrid.Item as={Col} xs={24} lg={10}>
+                                    <FlexboxGrid.Item as={Col} xs={20} lg={3}>
                                         <InputRate
                                             formValue={formValue}
                                             handleInputChange={handleInputChange}
-                                            label="Tasa de rendimiento"
+                                            label="Tasa"
                                         />
                                     </FlexboxGrid.Item>
-                                    {/* rate slider */}
-                                    <FlexboxGrid.Item as={Col} xs={24} lg={24} className='mt-4' >
-                                        <InputRateSlider
-                                            formValue={formValue}
-                                            handleInputChange={handleInputChange}
-                                        />
-                                    </FlexboxGrid.Item>
+
                                     {/* month pay array */}
-                                    <FlexboxGrid.Item as={Col} xs={24} lg={24} className='mt-4'>
+                                    <FlexboxGrid.Item as={Col} xs={20} lg={8} >
                                         <InputMonthPay
                                             formValue={formValue}
                                             handleInputChange={handleInputChange}
-                                            label="¿Cuánto abonarías mensualmente? (max 6)"
+                                            label="Abono(s) mensual (max 6)"
                                         />
                                     </FlexboxGrid.Item>
                                     {/* send or loaiding */}
-                                    <FlexboxGrid.Item as={Col} xs={24} lg={24} className='mt-4'>
+                                    <FlexboxGrid.Item as={Col} xs={20} lg={3} >
                                         {   //se muestra loading o button si esta cargando
                                             loading
                                                 ? (
@@ -155,12 +140,35 @@ const FormCalculatorPrincipal = () => {
                                                 : (
                                                     <ButtonToolbar >
                                                         <Button appearance="primary" type="submit" block className={styles.centerButton}>
-                                                            Calcular plan
-                                                            <BiSend style={{ marginLeft: '10px' }} />
+                                                            Calcular
+                                                            <BiCalculator style={{ marginLeft: '10px' }} />
                                                         </Button>
                                                     </ButtonToolbar>
                                                 )
                                         }
+                                    </FlexboxGrid.Item>
+                                    {/* chart button */}
+                                    <FlexboxGrid.Item as={Col} xs={20} lg={3} >
+                                        <Button
+                                            block
+                                            color="violet"
+                                            appearance="primary"
+                                            endIcon={<BiBarChartAlt />}
+                                        // onClick={handleEnd}
+                                        >
+                                            Gráfica
+                                        </Button>
+                                    </FlexboxGrid.Item>
+                                    {/* chart button */}
+                                    <FlexboxGrid.Item as={Col} xs={20} lg={2} >
+                                        <Button
+                                            block
+                                            color="red"
+                                            appearance="ghost"
+                                        // onClick={handleEnd}
+                                        >
+                                            Salir
+                                        </Button>
                                     </FlexboxGrid.Item>
                                     {/* divider error message */}
                                     <FlexboxGrid.Item as={Col} xs={20} lg={24} className="mt-4" >
@@ -175,6 +183,13 @@ const FormCalculatorPrincipal = () => {
                                 </FlexboxGrid>
 
                             </Form>
+                        </FlexboxGridItem>
+
+
+
+                        {/* form */}
+                        <FlexboxGrid.Item as={Col} xs={20} className="mt-5">
+
                         </FlexboxGrid.Item>
                     </FlexboxGrid>
                 </FlexboxGrid.Item>
@@ -184,7 +199,7 @@ const FormCalculatorPrincipal = () => {
 }
 
 
-FormCalculatorPrincipal.propTypes = propTypes;
-FormCalculatorPrincipal.defaultProps = defaultProps;
+FormCalculatorSecondary.propTypes = propTypes;
+FormCalculatorSecondary.defaultProps = defaultProps;
 
-export default FormCalculatorPrincipal;
+export default FormCalculatorSecondary;
