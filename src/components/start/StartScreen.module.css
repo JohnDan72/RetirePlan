@@ -1,0 +1,37 @@
+/*html, body, .root {*/
+
+.allHeighWidth {
+    height: 100%;
+    width: 100%;
+}
+
+.centerContainer {
+    /*IMPORTANTE*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel1 {
+    background: url("../../media/img/plan-fondo-1.png");
+    background-position: center;
+    background-attachment: contain;
+    background-size: cover;
+    /* background-color: rgb(51 51 51 / 55%); */
+    background-blend-mode: multiply;
+}
+
+.customButton {
+    height: 80px;
+    width: 160px;
+    font-size: xx-large;
+}
+
+.textCenter {
+    text-align: center;
+}
+
+.header {
+    color: rgb(231, 231, 231);
+    background-color: rgb(51 51 51 / 55%);
+}
