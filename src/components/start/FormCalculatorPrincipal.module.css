@@ -1,3 +1,9 @@
+.formStyle {
+    background-color: var(--rs-body);
+    border-radius: 8px;
+    opacity: 0.97;
+}
+
 .imgStyle{
     max-height: 150px;
     display: flex;

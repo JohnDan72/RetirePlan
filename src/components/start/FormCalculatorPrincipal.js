@@ -19,7 +19,6 @@ import { GeneralContext } from '../../GeneralContext';
 import { types } from '../../types/types';
 import { startUser } from '../../selectors/startUser';
 import { validInt, validMoney, validTagInput } from '../../helpers/calculatorValidator';
-import SearchScreen from '../search/SearchScreen';
 
 
 
@@ -92,109 +91,114 @@ const FormCalculatorPrincipal = () => {
     }
 
     return (
-        <div className="container animate__animated animate__bounceInRight allHeightWidth v-a-middle">
+        <div className={`container animate__animated animate__bounceInRight allHeightWidth v-a-middle ${styles.fondo}`}>
             {/* <JSONView formValue={formValue} /> */}
-            <FlexboxGrid justify="center">
-                {/* logo */}
-                <FlexboxGrid.Item as={Col} xs={24}>
-                    <img src={logo} className={styles.imgStyle} alt="logo" />
-                </FlexboxGrid.Item>
-                {/* título */}
-                <FlexboxGrid.Item as={Col} xs={24} className="mt-3">
-                    <h4 id="id_bienvenida" className={styles.textCenter}>Comienza a ver el poder que tienen las inversiones sobre tu ahorro</h4>
-                </FlexboxGrid.Item>
-                {/* form */}
-                <FlexboxGrid.Item as={Col} xs={20} sm={18} md={12} className="mt-5">
-                    <Form
-                        // ref={formRef}
-                        formValue={{ salary, rate }}
-                        onSubmit={handleLogin}
-                        fluid
-                        model={model}
-                    >
+            <FlexboxGrid justify="center" >
+                <FlexboxGrid.Item as={Col} xs={20} md={14}>
+                    <FlexboxGrid justify="center" className={`${styles.formStyle}`}>
+
+                        {/* logo */}
+                        <FlexboxGrid.Item as={Col} xs={20}>
+                            <img src={logo} className={styles.imgStyle} alt="logo" />
+                        </FlexboxGrid.Item>
+                        {/* título */}
+                        <FlexboxGrid.Item as={Col} xs={20} className="mt-3">
+                            <h4 id="id_bienvenida" className={styles.textCenter}>Comienza a ver el poder que tienen las inversiones sobre tu ahorro</h4>
+                        </FlexboxGrid.Item>
+                        {/* form */}
+                        <FlexboxGrid.Item as={Col} xs={20} className="mt-5">
+                            <Form
+                                // ref={formRef}
+                                formValue={{ salary, rate }}
+                                onSubmit={handleLogin}
+                                fluid
+                                model={model}
+                            >
 
 
-                        <FlexboxGrid className={`mb-3 ${styles.vAEnd}`}>
-                            {/* salary */}
-                            <FlexboxGrid.Item as={Col} xs={20} lg={14}>
-                                <TextField prefix="$" name="salary"
-                                    id="id_salary_input"
-                                    label="¿Cuánto te gustaría recibir mensualmente?"
-                                    value={salary}
-                                    onChange={salaryHandler} />
-                            </FlexboxGrid.Item>
-                            {/* rate */}
-                            <FlexboxGrid.Item as={Col} xs={20} lg={10}>
-                                <TextField posfix="%" name="rate"
-                                    id="id_rate_input"
-                                    label={`Tasa de rendimiento`}
-                                    value={rate}
-                                    onChange={rateHandler} />
-                            </FlexboxGrid.Item>
-                            {/* rate slider */}
-                            <FlexboxGrid.Item as={Col} xs={20} lg={24} className='mt-4' >
-                                <Slider
-                                    max={100}
-                                    step={0.2}
-                                    progress
-                                    // style={{  fontSize: '10px' }}
-                                    value={Number(rate)}
-                                    // graduated
-                                    // renderMark={mark => {
-                                    //     if(mark == 100) return mark+' %'
-                                    //     return mark % 10 == 0 ? mark : false;
-                                    // }}
-                                    onChange={value => {
-                                        handleInputChange({ name: 'rate', value: value + '' });
-                                    }}
-                                />
-                            </FlexboxGrid.Item>
-                            {/* month pay array */}
-                            <FlexboxGrid.Item as={Col} xs={20} lg={24} className='mt-4'>
-                                <TagTextField
-                                    name="month_pay"
-                                    id="id_month_pay_input"
-                                    label="¿Cuánto abonarías mensualmente? (max 6)"
-                                    trigger={['Enter', 'Space', 'Comma']}
-                                    placeholder="Abono mesual (máximo 6 cifras)"
-                                    value={month_pay}
-                                    onCreate={monthPayHandler}
-                                    onClean={monthPayClenHandler}
-                                    onChange={monthPayCloseHandler}
-                                />
-                            </FlexboxGrid.Item>
-                            {/* send or loaiding */}
-                            <FlexboxGrid.Item as={Col} xs={20} lg={24} className='mt-4'>
-                                {   //se muestra loading o button si esta cargando
-                                    loading
-                                        ? (
-                                            <div className={styles.centerContet}>
-                                                <Loader size="md" />
-                                            </div>
-                                        )
-                                        : (
-                                            <ButtonToolbar >
-                                                <Button appearance="primary" type="submit" block className={styles.centerButton}>
-                                                    Calcular plan
-                                                    <BiSend style={{ marginLeft: '10px' }} />
-                                                </Button>
-                                            </ButtonToolbar>
-                                        )
-                                }
-                            </FlexboxGrid.Item>
-                            {/* divider error message */}
-                            <FlexboxGrid.Item as={Col} xs={20} lg={24} className="mt-4" >
-                                {
-                                    status_error &&
-                                    <Message showIcon type="error">
-                                        {error_msg}
-                                    </Message>
-                                }
+                                <FlexboxGrid className={`mb-3 ${styles.vAEnd}`}>
+                                    {/* salary */}
+                                    <FlexboxGrid.Item as={Col} xs={24} lg={14}>
+                                        <TextField prefix="$" name="salary"
+                                            id="id_salary_input"
+                                            label="¿Cuánto te gustaría recibir mensualmente?"
+                                            value={salary}
+                                            onChange={salaryHandler} />
+                                    </FlexboxGrid.Item>
+                                    {/* rate */}
+                                    <FlexboxGrid.Item as={Col} xs={24} lg={10}>
+                                        <TextField posfix="%" name="rate"
+                                            id="id_rate_input"
+                                            label={`Tasa de rendimiento`}
+                                            value={rate}
+                                            onChange={rateHandler} />
+                                    </FlexboxGrid.Item>
+                                    {/* rate slider */}
+                                    <FlexboxGrid.Item as={Col} xs={24} lg={24} className='mt-4' >
+                                        <Slider
+                                            max={100}
+                                            step={0.2}
+                                            progress
+                                            // style={{  fontSize: '10px' }}
+                                            value={Number(rate)}
+                                            // graduated
+                                            // renderMark={mark => {
+                                            //     if(mark == 100) return mark+' %'
+                                            //     return mark % 10 == 0 ? mark : false;
+                                            // }}
+                                            onChange={value => {
+                                                handleInputChange({ name: 'rate', value: value + '' });
+                                            }}
+                                        />
+                                    </FlexboxGrid.Item>
+                                    {/* month pay array */}
+                                    <FlexboxGrid.Item as={Col} xs={24} lg={24} className='mt-4'>
+                                        <TagTextField
+                                            name="month_pay"
+                                            id="id_month_pay_input"
+                                            label="¿Cuánto abonarías mensualmente? (max 6)"
+                                            trigger={['Enter', 'Space', 'Comma']}
+                                            placeholder="Abono mesual (máximo 6 cifras)"
+                                            value={month_pay}
+                                            onCreate={monthPayHandler}
+                                            onClean={monthPayClenHandler}
+                                            onChange={monthPayCloseHandler}
+                                        />
+                                    </FlexboxGrid.Item>
+                                    {/* send or loaiding */}
+                                    <FlexboxGrid.Item as={Col} xs={24} lg={24} className='mt-4'>
+                                        {   //se muestra loading o button si esta cargando
+                                            loading
+                                                ? (
+                                                    <div className={styles.centerContet}>
+                                                        <Loader size="md" />
+                                                    </div>
+                                                )
+                                                : (
+                                                    <ButtonToolbar >
+                                                        <Button appearance="primary" type="submit" block className={styles.centerButton}>
+                                                            Calcular plan
+                                                            <BiSend style={{ marginLeft: '10px' }} />
+                                                        </Button>
+                                                    </ButtonToolbar>
+                                                )
+                                        }
+                                    </FlexboxGrid.Item>
+                                    {/* divider error message */}
+                                    <FlexboxGrid.Item as={Col} xs={20} lg={24} className="mt-4" >
+                                        {
+                                            status_error &&
+                                            <Message showIcon type="error">
+                                                {error_msg}
+                                            </Message>
+                                        }
 
-                            </FlexboxGrid.Item>
-                        </FlexboxGrid>
+                                    </FlexboxGrid.Item>
+                                </FlexboxGrid>
 
-                    </Form>
+                            </Form>
+                        </FlexboxGrid.Item>
+                    </FlexboxGrid>
                 </FlexboxGrid.Item>
 
 
