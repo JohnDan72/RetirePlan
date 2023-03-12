@@ -20,6 +20,10 @@ html,body,#root, .rs-container, .rs-sidebar, .rs-sidenav{
   align-items: center;
 }
 
+.ta-center {
+  text-align: center;
+}
+
 .hide{
   display: none;
 }

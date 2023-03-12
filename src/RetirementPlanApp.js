@@ -1,7 +1,7 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import { Container, Content, Header } from 'rsuite';
-import MiNavBar from './components/ui/MiNavBar';
+import { Container, Content } from 'rsuite';
+// import MiNavBar from './components/ui/MiNavBar';
 import { Outlet } from 'react-router-dom';
 
 const propTypes = {};
@@ -11,9 +11,9 @@ const defaultProps = {};
 const RetirementPlanApp = () => {
     return (
         <Container>
-            <Header className="">
+            {/* <Header className="">
                 <MiNavBar />
-            </Header>
+            </Header> */}
             <Content >
                 <Outlet />
             </Content>

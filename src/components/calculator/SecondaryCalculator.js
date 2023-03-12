@@ -1,6 +1,6 @@
 import React from 'react';
 import { Breadcrumb, Divider } from 'rsuite';
-import HeroList from '../hero/HeroList';
+// import HeroList from '../hero/HeroList';
 import styles from "../Common.module.css";
 
 const SecondaryCalculator = () => {
@@ -15,7 +15,7 @@ const SecondaryCalculator = () => {
             </div>
             <div className="container mt-5">
                 <Divider></Divider>
-                <HeroList publisher="" />
+                {/* <HeroList publisher="" /> */}
             </div>
         </>
     );

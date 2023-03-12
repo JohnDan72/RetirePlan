@@ -1,26 +1,25 @@
 import React, { useContext } from 'react';
-// import JSONView from '../ui/JSONView';
-import { Button, ButtonToolbar, Col, FlexboxGrid, Form, Loader, Message, Slider } from 'rsuite';
+// import JSONView from '../../ui/JSONView';
+import { Button, ButtonToolbar, Col, FlexboxGrid, Form, Loader, Message } from 'rsuite';
 import { useNavigate } from 'react-router-dom'
-// icons
-import { BiSend } from 'react-icons/bi';
+import { GeneralContext } from '../../../GeneralContext';
 
 
-// import PropTypes from 'prop-types';
-
-import { TextField, TagTextField } from '../textfieldsForm/TexField';
-
-// logo
-import logo from "../../media/retplan-logo.png";
+// import styles
 import styles from "./FormCalculatorPrincipal.module.css";
-import model from '../../models/calculator/formModel';
-import { useForm } from '../../hooks/useForm';
-import { GeneralContext } from '../../GeneralContext';
-import { types } from '../../types/types';
-import { startUser } from '../../selectors/startUser';
-import { validInt, validMoney, validTagInput } from '../../helpers/calculatorValidator';
+import { BiExit, BiSend } from 'react-icons/bi';
+// logo
+import logo from "../../../media/retplan-logo.png";
 
-
+// hooks / models / helpers / my components
+import model from '../../../models/calculator/formModel';
+import { useForm } from '../../../hooks/useForm';
+import { types } from '../../../types/types';
+import { startUser } from '../../../selectors/startUser';
+import { InputSalary } from '../input-types/InputSalary';
+import { InputRate } from '../input-types/InputRate';
+import { InputRateSlider } from '../input-types/InputRateSlider';
+import { InputMonthPay } from '../input-types/InputMonthPay';
 
 const propTypes = {};
 const defaultProps = {};
@@ -39,30 +38,7 @@ const FormCalculatorPrincipal = () => {
 
     const { dispatch } = useContext(GeneralContext);
 
-    const salaryHandler = (value) => {
-        const result = validMoney(value)
-        if (result !== false) { handleInputChange({ name: 'salary', value: result }) }
-    }
-    const rateHandler = (value) => {
-        if (validInt(value) !== false) { handleInputChange({ name: 'rate', value }) }
-    }
-    const monthPayHandler = (value, item) => {
-        validTagInput(value, item)
-        handleInputChange({ name: 'month_pay', value })
-
-        // console.log("value ---> ", value)
-        // console.log("month_pay ---> ", month_pay)
-    }
-    const monthPayClenHandler = (event) => {
-        handleInputChange({ name: 'month_pay', value: [] })
-    }
-    const monthPayCloseHandler = (value, item) => {
-        if (item.type === 'click') {
-            handleInputChange({ name: 'month_pay', value })
-        }
-    }
-
-    const handleLogin = (formStatus) => {
+    const handlePrincipalCalculator = (formStatus) => {
         console.log("formStatus --> ", formStatus)
         if (formStatus) {
             setLoading(true); //load while authenticate
@@ -90,13 +66,34 @@ const FormCalculatorPrincipal = () => {
         }
     }
 
+    const handleEnd = () => {
+        startUser(400)
+            .then(response => {
+                console.log("LogOut!!!!");
+                dispatch({
+                    type: types.end
+                });
+                navigate('/start')
+            });
+
+    }
+
     return (
         <div className={`container animate__animated animate__bounceInRight allHeightWidth v-a-middle ${styles.fondo}`}>
             {/* <JSONView formValue={formValue} /> */}
             <FlexboxGrid justify="center" >
                 <FlexboxGrid.Item as={Col} xs={20} md={14}>
                     <FlexboxGrid justify="center" className={`${styles.formStyle}`}>
-
+                        <FlexboxGrid.Item as={Col} xs={10} xsOffset={14} md={8} mdOffset={16} lg={6} lgOffset={18} className={`mt-4 ta-center`}>
+                            <Button
+                                color="red"
+                                appearance="ghost"
+                                endIcon={<BiExit />}
+                                onClick={handleEnd}
+                            >
+                                Salir
+                            </Button>
+                        </FlexboxGrid.Item>
                         {/* logo */}
                         <FlexboxGrid.Item as={Col} xs={20}>
                             <img src={logo} className={styles.imgStyle} alt="logo" />
@@ -110,59 +107,37 @@ const FormCalculatorPrincipal = () => {
                             <Form
                                 // ref={formRef}
                                 formValue={{ salary, rate }}
-                                onSubmit={handleLogin}
+                                onSubmit={handlePrincipalCalculator}
                                 fluid
                                 model={model}
                             >
-
-
                                 <FlexboxGrid className={`mb-3 ${styles.vAEnd}`}>
                                     {/* salary */}
                                     <FlexboxGrid.Item as={Col} xs={24} lg={14}>
-                                        <TextField prefix="$" name="salary"
-                                            id="id_salary_input"
-                                            label="¿Cuánto te gustaría recibir mensualmente?"
-                                            value={salary}
-                                            onChange={salaryHandler} />
+                                        <InputSalary
+                                            formValue={formValue}
+                                            handleInputChange={handleInputChange}
+                                        />
                                     </FlexboxGrid.Item>
                                     {/* rate */}
                                     <FlexboxGrid.Item as={Col} xs={24} lg={10}>
-                                        <TextField posfix="%" name="rate"
-                                            id="id_rate_input"
-                                            label={`Tasa de rendimiento`}
-                                            value={rate}
-                                            onChange={rateHandler} />
+                                        <InputRate
+                                            formValue={formValue}
+                                            handleInputChange={handleInputChange}
+                                        />
                                     </FlexboxGrid.Item>
                                     {/* rate slider */}
                                     <FlexboxGrid.Item as={Col} xs={24} lg={24} className='mt-4' >
-                                        <Slider
-                                            max={100}
-                                            step={0.2}
-                                            progress
-                                            // style={{  fontSize: '10px' }}
-                                            value={Number(rate)}
-                                            // graduated
-                                            // renderMark={mark => {
-                                            //     if(mark == 100) return mark+' %'
-                                            //     return mark % 10 == 0 ? mark : false;
-                                            // }}
-                                            onChange={value => {
-                                                handleInputChange({ name: 'rate', value: value + '' });
-                                            }}
+                                        <InputRateSlider
+                                            formValue={formValue}
+                                            handleInputChange={handleInputChange}
                                         />
                                     </FlexboxGrid.Item>
                                     {/* month pay array */}
                                     <FlexboxGrid.Item as={Col} xs={24} lg={24} className='mt-4'>
-                                        <TagTextField
-                                            name="month_pay"
-                                            id="id_month_pay_input"
-                                            label="¿Cuánto abonarías mensualmente? (max 6)"
-                                            trigger={['Enter', 'Space', 'Comma']}
-                                            placeholder="Abono mesual (máximo 6 cifras)"
-                                            value={month_pay}
-                                            onCreate={monthPayHandler}
-                                            onClean={monthPayClenHandler}
-                                            onChange={monthPayCloseHandler}
+                                        <InputMonthPay
+                                            formValue={formValue}
+                                            handleInputChange={handleInputChange}
                                         />
                                     </FlexboxGrid.Item>
                                     {/* send or loaiding */}
@@ -200,9 +175,6 @@ const FormCalculatorPrincipal = () => {
                         </FlexboxGrid.Item>
                     </FlexboxGrid>
                 </FlexboxGrid.Item>
-
-
-
             </FlexboxGrid>
         </div>
     )
