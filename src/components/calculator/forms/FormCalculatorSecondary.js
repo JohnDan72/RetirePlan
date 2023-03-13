@@ -32,10 +32,11 @@ const FormCalculatorSecondary = () => {
     const { formValue, handleInputChange, setFormError, setLoading, resetForm } = useForm({
         salary: "5,000",
         rate: "8",
-        month_pay: ["$1,500.00", "$4,500.52"]
+        month_pay: ["$1,500.00", "$4,500.52"],
+        chart_ready: false
     });
     const { status: status_error, error_msg } = formValue.error;
-    const { loading, salary, rate, month_pay } = formValue;
+    const { loading, salary, rate, month_pay, chart_ready } = formValue;
 
     const { dispatch } = useContext(GeneralContext);
 
@@ -80,121 +81,123 @@ const FormCalculatorSecondary = () => {
     }
 
     return (
-        <div className={`container animate__animated animate__bounceInRight allHeightWidth v-a-middle`}>
-            <FlexboxGrid justify="center" >
+        <>
+            <div className={`container animate__animated animate__bounceInLeft`}>
+                <FlexboxGrid justify="end" >
+                    {/* exit button */}
+                    <FlexboxGrid.Item as={Col} className={`mt-3 ta-center`} >
+                        <Button
+                            size="lg"
+                            color="red"
+                            appearance="primary"
+                            endIcon={<BiExit />}
+                            onClick={handleEnd}
+                        >
+                            Salir
+                        </Button>
+                    </FlexboxGrid.Item>
+                </FlexboxGrid>
+            </div>
+            <div className={`container animate__animated animate__bounceInRight`}>
+                <FlexboxGrid justify="center" >
 
-                <FlexboxGrid.Item as={Col} xs={24} >
-                    <FlexboxGrid justify="center" className={`${styles.formStyle}`}>
-                        {/* logo */}
-                        <FlexboxGrid.Item className='mt-4' as={Col} xs={20}>
-                            <img src={logo} className={styles.imgStyle} alt="logo" />
-                        </FlexboxGrid.Item>
-                        {/* título */}
-                        <FlexboxGrid.Item as={Col} xs={20} className="mt-3">
-                            <h4 id="id_bienvenida" className={styles.textCenter}>Comienza a ver el poder que tienen las inversiones sobre tu ahorro</h4>
-                        </FlexboxGrid.Item>
-                        {/* form */}
-                        <FlexboxGridItem as={Col} xs={24}>
-                            <Form
-                                // ref={formRef}
-                                formValue={{ salary, rate }}
-                                onSubmit={handlePrincipalCalculator}
-                                fluid
-                                model={model}
-                            >
-                                <FlexboxGrid justify="center" className={`my-5 ${styles.vAEnd}`}>
-                                    {/* salary */}
-                                    <FlexboxGrid.Item as={Col} xs={20} lg={5}>
-                                        <InputSalary
-                                            formValue={formValue}
-                                            handleInputChange={handleInputChange}
-                                            label="Sueldo mensual deseado"
-                                        />
-                                    </FlexboxGrid.Item>
-                                    {/* rate */}
-                                    <FlexboxGrid.Item as={Col} xs={20} lg={3}>
-                                        <InputRate
-                                            formValue={formValue}
-                                            handleInputChange={handleInputChange}
-                                            label="Tasa"
-                                        />
-                                    </FlexboxGrid.Item>
+                    <FlexboxGrid.Item as={Col} xs={24} >
+                        <FlexboxGrid align="middle" justify="center" className={`mt-5 ${styles.formStyle}`}>
+                            <FlexboxGridItem as={Col} xs={24} className="ta-center mt-3">
+                                <h5>Completa la información requerida y comprueba el poder de las inversiones a largo plazo</h5>
+                            </FlexboxGridItem>
+                            {/* form */}
+                            <FlexboxGridItem as={Col} xs={24}>
+                                <Form
+                                    // ref={formRef}
+                                    formValue={{ salary, rate }}
+                                    onSubmit={handlePrincipalCalculator}
+                                    fluid
+                                    model={model}
+                                >
+                                    <FlexboxGrid justify="center" className={`mt-4 mb-3 ${styles.vAEnd}`}>
+                                        {/* salary */}
+                                        <FlexboxGrid.Item as={Col} xs={20} lg={5}>
+                                            <InputSalary
+                                                formValue={formValue}
+                                                handleInputChange={handleInputChange}
+                                                label="Sueldo mensual deseado"
+                                            />
+                                        </FlexboxGrid.Item>
+                                        {/* rate */}
+                                        <FlexboxGrid.Item as={Col} xs={20} lg={3}>
+                                            <InputRate
+                                                formValue={formValue}
+                                                handleInputChange={handleInputChange}
+                                                label="Tasa"
+                                            />
+                                        </FlexboxGrid.Item>
 
-                                    {/* month pay array */}
-                                    <FlexboxGrid.Item as={Col} xs={20} lg={8} >
-                                        <InputMonthPay
-                                            formValue={formValue}
-                                            handleInputChange={handleInputChange}
-                                            label="Abono(s) mensual (max 6)"
-                                        />
-                                    </FlexboxGrid.Item>
-                                    {/* send or loaiding */}
-                                    <FlexboxGrid.Item as={Col} xs={20} lg={3} >
-                                        {   //se muestra loading o button si esta cargando
-                                            loading
-                                                ? (
-                                                    <div className={styles.centerContet}>
-                                                        <Loader size="md" />
-                                                    </div>
-                                                )
-                                                : (
-                                                    <ButtonToolbar >
-                                                        <Button appearance="primary" type="submit" block className={styles.centerButton}>
-                                                            Calcular
-                                                            <BiCalculator style={{ marginLeft: '10px' }} />
-                                                        </Button>
-                                                    </ButtonToolbar>
-                                                )
-                                        }
-                                    </FlexboxGrid.Item>
-                                    {/* chart button */}
-                                    <FlexboxGrid.Item as={Col} xs={20} lg={3} >
-                                        <Button
-                                            block
-                                            color="violet"
-                                            appearance="primary"
-                                            endIcon={<BiBarChartAlt />}
-                                        // onClick={handleEnd}
-                                        >
-                                            Gráfica
-                                        </Button>
-                                    </FlexboxGrid.Item>
-                                    {/* chart button */}
-                                    <FlexboxGrid.Item as={Col} xs={20} lg={2} >
-                                        <Button
-                                            block
-                                            color="red"
-                                            appearance="ghost"
-                                        // onClick={handleEnd}
-                                        >
-                                            Salir
-                                        </Button>
-                                    </FlexboxGrid.Item>
-                                    {/* divider error message */}
-                                    <FlexboxGrid.Item as={Col} xs={20} lg={24} className="mt-4" >
+                                        {/* month pay array */}
+                                        <FlexboxGrid.Item as={Col} xs={20} lg={8} >
+                                            <InputMonthPay
+                                                formValue={formValue}
+                                                handleInputChange={handleInputChange}
+                                                label="Abono(s) mensual (max 6)"
+                                            />
+                                        </FlexboxGrid.Item>
+                                        {/* send or loaiding */}
+                                        <FlexboxGrid.Item as={Col} xs={20} lg={3} >
+                                            {   //se muestra loading o button si esta cargando
+                                                loading
+                                                    ? (
+                                                        <div className={styles.centerContet}>
+                                                            <Loader size="md" />
+                                                        </div>
+                                                    )
+                                                    : (
+                                                        <ButtonToolbar >
+                                                            <Button appearance="primary" type="submit" block className={styles.centerButton}>
+                                                                Calcular
+                                                                <BiCalculator style={{ marginLeft: '10px' }} />
+                                                            </Button>
+                                                        </ButtonToolbar>
+                                                    )
+                                            }
+                                        </FlexboxGrid.Item>
                                         {
-                                            status_error &&
-                                            <Message showIcon type="error">
-                                                {error_msg}
-                                            </Message>
+                                            /* chart button */
+                                            chart_ready && (
+                                                <FlexboxGrid.Item as={Col} xs={20} lg={3} >
+                                                    <Button
+                                                        block
+                                                        color="violet"
+                                                        appearance="primary"
+                                                        endIcon={<BiBarChartAlt />}
+                                                    // onClick={handleEnd}
+                                                    >
+                                                        Gráfica
+                                                    </Button>
+                                                </FlexboxGrid.Item>
+                                            )
                                         }
 
-                                    </FlexboxGrid.Item>
-                                </FlexboxGrid>
 
-                            </Form>
-                        </FlexboxGridItem>
+                                        {/* divider error message */}
+                                        <FlexboxGrid.Item as={Col} xs={20} lg={24} className="mt-4" >
+                                            {
+                                                status_error &&
+                                                <Message showIcon type="error">
+                                                    {error_msg}
+                                                </Message>
+                                            }
 
+                                        </FlexboxGrid.Item>
+                                    </FlexboxGrid>
 
+                                </Form>
+                            </FlexboxGridItem>
 
-                        {/* form */}
-                        <FlexboxGrid.Item as={Col} xs={20} className="mt-5">
-
-                        </FlexboxGrid.Item>
-                    </FlexboxGrid>
-                </FlexboxGrid.Item>
-            </FlexboxGrid>
-        </div>
+                        </FlexboxGrid>
+                    </FlexboxGrid.Item>
+                </FlexboxGrid>
+            </div>
+        </>
     )
 }
 
