@@ -23,7 +23,8 @@ export const calculeRetPlan = ({ salary = "$30,000.00", rate = "10.0", month_pay
             success: false,
             advice: "",
             breakDown: [
-                {
+                {   
+                    id: iteration,
                     year: currentYear + "",
                     return: "$0.00",
                     investment_and_returns: annualSavingString,
@@ -38,6 +39,7 @@ export const calculeRetPlan = ({ salary = "$30,000.00", rate = "10.0", month_pay
             const newAccumulation = newReturn + auxPrevInvestment + annualSaving
             currentSalaryAdvance = newReturn / 12
             result.breakDown.push({
+                id: (iteration+1),
                 year: ++currentYear + "",
                 return: formatMoney(newReturn),
                 investment_and_returns: formatMoney(newAccumulation),

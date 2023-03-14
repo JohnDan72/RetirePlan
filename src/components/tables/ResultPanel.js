@@ -34,7 +34,6 @@ const ResultPanel = () => {
                 }
             });
         }
-        data[ind].breakDown.id = ind
         return data[ind].breakDown;
     };
 
@@ -54,10 +53,10 @@ const ResultPanel = () => {
             <FlexboxGrid justify="center" >
                 {
                     data.map((item, index) => (
-                        <FlexboxGrid.Item as={Col} xs={24} className={`mt-3`} >
+                        <FlexboxGrid.Item as={Col} xs={24} lg={12} className={`mt-3`} >
                             <PanelGroup accordion bordered className={` ${styles.panelStyle}`}>
                                 <Panel header={`Resultado - ${(index + 1)}`} defaultExpanded>
-                                    <FlexboxGrid.Item as={Col} xs={24} className={`mt-3`} >
+                                    <FlexboxGrid.Item as={Col} xs={24} className={`mt-3 mb-4`} >
                                         <Table
                                             height={420}
                                             data={getData(index)}
@@ -66,27 +65,27 @@ const ResultPanel = () => {
                                             onSortColumn={handleSortColumn}
                                             loading={loading}
                                         >
-                                            <Column width={70} align="center" fixed sortable resizable>
+                                            <Column width={60} align="center" fixed sortable resizable>
                                                 <HeaderCell>Id</HeaderCell>
-                                                <Cell dataKey="ind" />
+                                                <Cell dataKey="id" />
                                             </Column>
 
-                                            <Column width={130} fixed sortable resizable>
+                                            <Column width={70} fixed sortable resizable>
                                                 <HeaderCell>Año</HeaderCell>
                                                 <Cell dataKey="year" />
                                             </Column>
 
-                                            <Column width={100} sortable resizable>
+                                            <Column width={120} sortable resizable>
                                                 <HeaderCell>Rendimiento</HeaderCell>
                                                 <Cell dataKey="return" />
                                             </Column>
 
-                                            <Column width={100} sortable resizable>
+                                            <Column width={120} sortable resizable>
                                                 <HeaderCell>Acumulación</HeaderCell>
                                                 <Cell dataKey="investment_and_returns" />
                                             </Column>
 
-                                            <Column width={200} sortable resizable>
+                                            <Column width={100} sortable resizable>
                                                 <HeaderCell>Mensualidad</HeaderCell>
                                                 <Cell dataKey="final_salary" />
                                             </Column>
