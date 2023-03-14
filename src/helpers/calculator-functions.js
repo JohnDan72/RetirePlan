@@ -1,13 +1,14 @@
 
 
-export const calculeRetPlan = ({ salary = "$30,000.00", rate = "10.0", month_pay = ["$5,000"] }) => {
-    let currentYear = new Date().getFullYear()
+export const calculeRetPlan = ({ salary = "$30,000.00", rate = "10.0", month_pay = ["$5,000","$10,000.00", "20,000.00"] }) => {
+    
 
     const salaryGoal = Number(salary.replace(/\$|,/g, ""))
     const rateNumber = Number(rate)
 
 
     const response = month_pay.map((item, ind) => {
+        let currentYear = new Date().getFullYear()
         let iteration = 1
         let currentSalaryAdvance = 0.0
         const annualSaving = Number(item.replace(/\$|,/g, "")) * 12.0;
@@ -21,7 +22,7 @@ export const calculeRetPlan = ({ salary = "$30,000.00", rate = "10.0", month_pay
             month_pay: item,
             success: false,
             advice: "",
-            brackDown: [
+            breakDown: [
                 {
                     year: currentYear + "",
                     return: "$0.00",
@@ -32,11 +33,11 @@ export const calculeRetPlan = ({ salary = "$30,000.00", rate = "10.0", month_pay
         }
 
         while ((iteration < maxYears) && (currentSalaryAdvance < salaryGoal)) {
-            const auxPrevInvestment = Number(result.brackDown[iteration - 1].investment_and_returns.replace(/\$|,/g, ""))
+            const auxPrevInvestment = Number(result.breakDown[iteration - 1].investment_and_returns.replace(/\$|,/g, ""))
             const newReturn = auxPrevInvestment * (rateNumber / 100)
             const newAccumulation = newReturn + auxPrevInvestment + annualSaving
             currentSalaryAdvance = newReturn / 12
-            result.brackDown.push({
+            result.breakDown.push({
                 year: ++currentYear + "",
                 return: formatMoney(newReturn),
                 investment_and_returns: formatMoney(newAccumulation),

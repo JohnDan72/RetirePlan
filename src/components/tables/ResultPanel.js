@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BiExit } from 'react-icons/bi';
 import { Button, Col, FlexboxGrid, Panel, PanelGroup, Placeholder, Table } from 'rsuite';
+import { calculeRetPlan } from '../../helpers/calculator-functions';
 
 import styles from './ResultPanel.module.css'
 
@@ -9,37 +10,15 @@ const { Column, HeaderCell, Cell } = Table;
 const propTypes = {};
 const defaultProps = {};
 
-const ResultPanel = ({ data }) => {
-    const [info, setInfo] = useState([
-        {
-            id: 1,
-            name: "example - 1",
-            gender: "male",
-            age: 23,
-            email: "email-example@gmail.com"
-        },
-        {
-            id: 2,
-            name: "example - 2",
-            gender: "female",
-            age: 25,
-            email: "email-example@gmail.com"
-        },
-        {
-            id: 3,
-            name: "example - 3",
-            gender: "male",
-            age: 21,
-            email: "email-example@gmail.com"
-        }
-    ])
+const ResultPanel = () => {
+    const [data, setData] = useState(calculeRetPlan({}))
     const [sortColumn, setSortColumn] = React.useState();
     const [sortType, setSortType] = React.useState();
     const [loading, setLoading] = React.useState(false);
 
-    const getData = () => {
+    const getData = (ind) => {
         if (sortColumn && sortType) {
-            return info.sort((a, b) => {
+            return data[ind].breakDown.sort((a, b) => {
                 let x = a[sortColumn];
                 let y = b[sortColumn];
                 if (typeof x === 'string') {
@@ -55,60 +34,61 @@ const ResultPanel = ({ data }) => {
                 }
             });
         }
-        return info;
+        data[ind].breakDown.id = ind
+        return data[ind].breakDown;
     };
 
     const handleSortColumn = (sortColumn, sortType) => {
         setLoading(true);
         setTimeout(() => {
-          setLoading(false);
-          setSortColumn(sortColumn);
-          setSortType(sortType);
+            setLoading(false);
+            setSortColumn(sortColumn);
+            setSortType(sortType);
         }, 500);
-      };
+    };
 
 
     return (
         <div className={`container animate__animated animate__bounceInLeft`}>
+            
             <FlexboxGrid justify="center" >
                 {
-                    info.map((item, index) => (
-                        <FlexboxGrid.Item as={Col} xs={24} lg={22} className={`mt-3`} >
+                    data.map((item, index) => (
+                        <FlexboxGrid.Item as={Col} xs={24} className={`mt-3`} >
                             <PanelGroup accordion bordered className={` ${styles.panelStyle}`}>
                                 <Panel header={`Resultado - ${(index + 1)}`} defaultExpanded>
                                     <FlexboxGrid.Item as={Col} xs={24} className={`mt-3`} >
                                         <Table
-                                        block
-                                            // height={420}
-                                            data={getData()}
+                                            height={420}
+                                            data={getData(index)}
                                             sortColumn={sortColumn}
                                             sortType={sortType}
                                             onSortColumn={handleSortColumn}
                                             loading={loading}
                                         >
-                                            <Column width={70} align="center" fixed sortable>
+                                            <Column width={70} align="center" fixed sortable resizable>
                                                 <HeaderCell>Id</HeaderCell>
-                                                <Cell dataKey="id" />
+                                                <Cell dataKey="ind" />
                                             </Column>
 
-                                            <Column width={130} fixed sortable>
-                                                <HeaderCell>Name</HeaderCell>
-                                                <Cell dataKey="name" />
+                                            <Column width={130} fixed sortable resizable>
+                                                <HeaderCell>Año</HeaderCell>
+                                                <Cell dataKey="year" />
                                             </Column>
 
-                                            <Column width={100} sortable>
-                                                <HeaderCell>Gender</HeaderCell>
-                                                <Cell dataKey="gender" />
+                                            <Column width={100} sortable resizable>
+                                                <HeaderCell>Rendimiento</HeaderCell>
+                                                <Cell dataKey="return" />
                                             </Column>
 
-                                            <Column width={100} sortable>
-                                                <HeaderCell>Age</HeaderCell>
-                                                <Cell dataKey="age" />
+                                            <Column width={100} sortable resizable>
+                                                <HeaderCell>Acumulación</HeaderCell>
+                                                <Cell dataKey="investment_and_returns" />
                                             </Column>
 
-                                            <Column width={200} sortable>
-                                                <HeaderCell>Email</HeaderCell>
-                                                <Cell dataKey="email" />
+                                            <Column width={200} sortable resizable>
+                                                <HeaderCell>Mensualidad</HeaderCell>
+                                                <Cell dataKey="final_salary" />
                                             </Column>
                                         </Table>
                                     </FlexboxGrid.Item>
