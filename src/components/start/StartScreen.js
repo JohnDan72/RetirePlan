@@ -32,7 +32,7 @@ const StartScreen = () => {
                 .then(response => {
                     console.log("Sucess!!!");
                     setLoading(false);
-                    dispatch({ type: types.start, payload: { status: response } });
+                    dispatch({ type: types.start, payload: { user: {status: response}, planData: [] } });
 
                     const lastPath = localStorage.getItem('lastPath') || '/';
 

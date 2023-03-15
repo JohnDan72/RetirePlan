@@ -4,16 +4,23 @@ import { types } from '../types/types';
 //     logged: true
 // }
 
-export const authReducer = ( state = {} , action ) => {
-    switch(action.type){
+export const authReducer = (state = {}, action) => {
+    switch (action.type) {
         case types.start:
             return {
-                ...action.payload,
-                logged: true
+                user: {
+                    ...action.payload.user,
+                    logged: true
+                },
+                planData: action.payload.planData,
             }
         case types.end:
+            
             return {
-                logged: false
+                user: {
+                    logged: false
+                },
+                planData: []
             }
         default:
             return state;

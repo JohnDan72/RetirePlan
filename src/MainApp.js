@@ -6,23 +6,29 @@ import AppRouter from './routes/AppRouter';
 
 
 const init = () => {
-    return JSON.parse(localStorage.getItem('userSession')) || { logged: false };
+    return {
+        user: JSON.parse(localStorage.getItem('userSession')) || { logged: false },
+        planData: (localStorage.getItem('planData')) ? JSON.parse(localStorage.getItem('planData')) : []
+    }
+    // return JSON.parse(localStorage.getItem('userSession')) || { logged: false };
 }
 
 const MainApp = () => {
-    const [user, dispatch] = useReducer(authReducer, {}, init);
+    const [reducerData, dispatch] = useReducer(authReducer, {}, init);
 
     const [active, setActive] = useState('')
     const [theme, setTheme] = useState('dark');
 
     useEffect(() => {
-        console.log("user-->",JSON.stringify(user))
-        if (!user) return;
-        localStorage.setItem('userSession', JSON.stringify(user));
-    }, [user])
+        console.log("reducerData-->",JSON.stringify(reducerData))
+        if (!reducerData.user) return;
+        localStorage.setItem('userSession', JSON.stringify(reducerData.user));
+        localStorage.setItem('planData', JSON.stringify(reducerData.planData));
+        
+    }, [reducerData])
     return (
         <GeneralContext.Provider value={{
-            user, dispatch,
+            reducerData, dispatch,
             theme, setTheme,
             active, setActive,
         }}

@@ -20,6 +20,7 @@ import { InputSalary } from '../input-types/InputSalary';
 import { InputRate } from '../input-types/InputRate';
 import { InputRateSlider } from '../input-types/InputRateSlider';
 import { InputMonthPay } from '../input-types/InputMonthPay';
+import { calculeRetPlan } from '../../../helpers/calculator-functions';
 
 const propTypes = {};
 const defaultProps = {};
@@ -56,9 +57,10 @@ const FormCalculatorPrincipal = () => {
                         setFormError(true, 'Ingresa una tasa de rendimiento válida mayor igual a 1');
                         return
                     }
+                    const planData = calculeRetPlan(formValue)
                     console.log("Sucess!!!");
                     resetForm();
-                    // dispatch({ type: types.end });
+                    dispatch({ type: types.start, payload:{ user: {status: userData}, planData } });
                     navigate('/secondary-calculator');
                 });
 
