@@ -1,5 +1,4 @@
 
-
 export const validMoney = (value = '') => {
     value = value.replace(/\$|,/g, "")
     if (value === '') return value;
@@ -16,6 +15,17 @@ export const validInt = (value = '', maxLength = 2) => {
     const match = value.match(/(^[1-9]\d{0,1}$)|(^[1-9]\d{0,1}\.\d{0,2}$)/g)
     if (match) return match[0]
 
+    return false
+}
+
+export const validAge = (value = '', MAX_AGE) => {
+    if (value === '') return value;
+    const match = value.match(/^[1-9]\d{0,2}$/g)
+    if(match) {
+        if(Number(value) >= 0 && Number(value) <= MAX_AGE){
+            return match[0]   
+        }
+    }
     return false
 }
 

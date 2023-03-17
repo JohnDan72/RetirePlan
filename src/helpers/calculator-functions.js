@@ -1,11 +1,9 @@
 
 
-export const calculeRetPlan = ({ salary = "$30,000.00", rate = "10.0", month_pay = ["$5,000","$10,000.00", "20,000.00"] }) => {
-    
-
+export const calculeRetPlan = ({ salary = "$30,000.00", rate = "10.0", month_pay = ["$5,000", "$10,000.00", "20,000.00"], age = 26 }, MAX_AGE) => {
     const salaryGoal = Number(salary.replace(/\$|,/g, ""))
     const rateNumber = Number(rate)
-
+    const ageNumber = Number(age)
 
     const response = month_pay.map((item, ind) => {
         let currentYear = new Date().getFullYear()
@@ -13,7 +11,6 @@ export const calculeRetPlan = ({ salary = "$30,000.00", rate = "10.0", month_pay
         let currentSalaryAdvance = 0.0
         const annualSaving = Number(item.replace(/\$|,/g, "")) * 12.0;
         const annualSavingString = formatMoney(annualSaving);
-        const maxYears = 100
         const result = {
             id: (ind + 1),
             salary,
@@ -23,33 +20,37 @@ export const calculeRetPlan = ({ salary = "$30,000.00", rate = "10.0", month_pay
             success: false,
             advice: "",
             breakDown: [
-                {   
+                {
                     id: iteration,
+                    key: `t-${ind}-r-${iteration-1}`,
                     year: currentYear + "",
                     return: "$0.00",
                     investment_and_returns: annualSavingString,
                     final_salary: "$0.00",
+                    current_age: ageNumber + ' años',
                 }
             ]
         }
 
-        while ((iteration < maxYears) && (currentSalaryAdvance < salaryGoal)) {
+        while (((ageNumber + iteration) < MAX_AGE) && (currentSalaryAdvance < salaryGoal)) {
             const auxPrevInvestment = Number(result.breakDown[iteration - 1].investment_and_returns.replace(/\$|,/g, ""))
             const newReturn = auxPrevInvestment * (rateNumber / 100)
             const newAccumulation = newReturn + auxPrevInvestment + annualSaving
             currentSalaryAdvance = newReturn / 12
             result.breakDown.push({
-                id: (iteration+1),
+                id: (iteration + 1),
+                key: `t-${ind}-r-${iteration}`,
                 year: ++currentYear + "",
                 return: formatMoney(newReturn),
                 investment_and_returns: formatMoney(newAccumulation),
-                final_salary: formatMoney(currentSalaryAdvance)
+                final_salary: formatMoney(currentSalaryAdvance),
+                current_age: (ageNumber + iteration) + ' años'
             })
             iteration++
         }
 
         if (currentSalaryAdvance < salaryGoal) {
-            result.advice = `Tu meta en un máximo de 100 años no podrá cumplirse con los parámetros insertados, Se recomiendoa intentar de nuevo, con un menor salario objetivo, aumentando la tasa de rendimiento o aumentando los abonos mensuales`
+            result.advice = `Tu meta no podrá cumplirse antes de que cumplas máximo ${MAX_AGE} años debido a que los parámetros insertados pueden ser poco realistas. Intenta de nuevo, con un menor salario objetivo, aumentando la tasa de rendimiento o aumentando los abonos mensuales`
         }
         else {
             result.success = true

@@ -7,9 +7,8 @@ import { GeneralContext } from '../../../GeneralContext';
 
 // import styles
 import styles from "./FormCalculatorSecondary.module.css";
-import { BiExit, BiSend, BiBarChartAlt, BiCalculator } from 'react-icons/bi';
+import { BiExit, BiBarChartAlt, BiCalculator } from 'react-icons/bi';
 // logo
-import logo from "../../../media/retplan-logo-2.png";
 
 // hooks / models / helpers / my components
 import model from '../../../models/calculator/formModel';
@@ -18,9 +17,10 @@ import { types } from '../../../types/types';
 import { startUser } from '../../../selectors/startUser';
 import { InputSalary } from '../input-types/InputSalary';
 import { InputRate } from '../input-types/InputRate';
-import { InputRateSlider } from '../input-types/InputRateSlider';
 import { InputMonthPay } from '../input-types/InputMonthPay';
 import FlexboxGridItem from 'rsuite/esm/FlexboxGrid/FlexboxGridItem';
+import { InputAge } from '../input-types/InputAge';
+import { calculeRetPlan } from '../../../helpers/calculator-functions';
 
 const propTypes = {};
 const defaultProps = {};
@@ -33,35 +33,35 @@ const FormCalculatorSecondary = () => {
         salary: "5,000",
         rate: "8",
         month_pay: ["$1,500.00", "$4,500.52"],
+        age: "26",
         chart_ready: false
     });
     const { status: status_error, error_msg } = formValue.error;
-    const { loading, salary, rate, month_pay, chart_ready } = formValue;
+    const { loading, salary, rate, month_pay, chart_ready, age } = formValue;
 
-    const { dispatch } = useContext(GeneralContext);
+    const { reducerData , dispatch } = useContext(GeneralContext);
+    const { MAX_AGE } = reducerData
 
-    const handlePrincipalCalculator = (formStatus) => {
+    const handleSecondaryCalculator = (formStatus) => {
         console.log("formStatus --> ", formStatus)
         if (formStatus) {
             setLoading(true); //load while authenticate
 
-            // NOTA:    tener cuidado con funciones async 
-            //          ya que no funciona bien por el cambio 
-            //          de state en PublicRoute
             startUser(500)
                 .then(userData => {
-                    if (month_pay.length < 1) { // check month pay length
-                        setFormError(true, 'Al menos debes agregar 1 abono mensual');
-                        return
-                    }
-                    if (rate < 1) { // check month pay length
-                        setFormError(true, 'Ingresa una tasa de rendimiento válida mayor igual a 1');
-                        return
-                    }
-                    console.log("Sucess!!!");
-                    resetForm();
-                    dispatch({ type: types.end });
-                    navigate('/start');
+                    // if (month_pay.length < 1) { // check month pay length
+                    //     setFormError(true, 'Al menos debes agregar 1 abono mensual');
+                    //     return
+                    // }
+                    // if (rate < 1) { // check month pay length
+                    //     setFormError(true, 'Ingresa una tasa de rendimiento válida mayor igual a 1');
+                    //     return
+                    // }
+                    // const planData = calculeRetPlan(formValue, MAX_AGE)
+                    // console.log("Sucess!!!");
+                    // resetForm();
+                    // dispatch({ type: types.start, payload:{ user: {status: userData}, planData } });
+                    // navigate('/secondary-calculator');
                 });
 
 
@@ -110,8 +110,8 @@ const FormCalculatorSecondary = () => {
                             <FlexboxGridItem as={Col} xs={24}>
                                 <Form
                                     // ref={formRef}
-                                    formValue={{ salary, rate }}
-                                    onSubmit={handlePrincipalCalculator}
+                                    formValue={{ salary, rate, age }}
+                                    onSubmit={handleSecondaryCalculator}
                                     fluid
                                     model={model}
                                 >
@@ -125,7 +125,7 @@ const FormCalculatorSecondary = () => {
                                             />
                                         </FlexboxGrid.Item>
                                         {/* rate */}
-                                        <FlexboxGrid.Item as={Col} xs={20} lg={3}>
+                                        <FlexboxGrid.Item as={Col} xs={20} lg={2}>
                                             <InputRate
                                                 formValue={formValue}
                                                 handleInputChange={handleInputChange}
@@ -139,6 +139,14 @@ const FormCalculatorSecondary = () => {
                                                 formValue={formValue}
                                                 handleInputChange={handleInputChange}
                                                 label="Abono(s) mensual (max 6)"
+                                            />
+                                        </FlexboxGrid.Item>
+                                        {/* age */}
+                                        <FlexboxGrid.Item as={Col} xs={20} lg={3}>
+                                            <InputAge
+                                                formValue={formValue}
+                                                handleInputChange={handleInputChange}
+                                                label="Edad"
                                             />
                                         </FlexboxGrid.Item>
                                         {/* send or loaiding */}

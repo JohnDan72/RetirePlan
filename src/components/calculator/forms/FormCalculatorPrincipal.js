@@ -21,6 +21,7 @@ import { InputRate } from '../input-types/InputRate';
 import { InputRateSlider } from '../input-types/InputRateSlider';
 import { InputMonthPay } from '../input-types/InputMonthPay';
 import { calculeRetPlan } from '../../../helpers/calculator-functions';
+import { InputAge } from '../input-types/InputAge';
 
 const propTypes = {};
 const defaultProps = {};
@@ -32,12 +33,14 @@ const FormCalculatorPrincipal = () => {
     const { formValue, handleInputChange, setFormError, setLoading, resetForm } = useForm({
         salary: "5,000",
         rate: "8",
-        month_pay: ["$1,500.00", "$4,500.52"]
+        month_pay: ["$1,500.00", "$4,500.52"],
+        age: "20"
     });
     const { status: status_error, error_msg } = formValue.error;
-    const { loading, salary, rate, month_pay } = formValue;
+    const { loading, salary, rate, month_pay, age } = formValue;
 
-    const { dispatch } = useContext(GeneralContext);
+    const { reducerData , dispatch } = useContext(GeneralContext);
+    const { MAX_AGE } = reducerData
 
     const handlePrincipalCalculator = (formStatus) => {
         console.log("formStatus --> ", formStatus)
@@ -57,7 +60,7 @@ const FormCalculatorPrincipal = () => {
                         setFormError(true, 'Ingresa una tasa de rendimiento válida mayor igual a 1');
                         return
                     }
-                    const planData = calculeRetPlan(formValue)
+                    const planData = calculeRetPlan(formValue, MAX_AGE)
                     console.log("Sucess!!!");
                     resetForm();
                     dispatch({ type: types.start, payload:{ user: {status: userData}, planData } });
@@ -108,7 +111,7 @@ const FormCalculatorPrincipal = () => {
                         <FlexboxGrid.Item as={Col} xs={20} className="mt-5">
                             <Form
                                 // ref={formRef}
-                                formValue={{ salary, rate }}
+                                formValue={{ salary, rate, age }}
                                 onSubmit={handlePrincipalCalculator}
                                 fluid
                                 model={model}
@@ -138,11 +141,19 @@ const FormCalculatorPrincipal = () => {
                                         />
                                     </FlexboxGrid.Item>
                                     {/* month pay array */}
-                                    <FlexboxGrid.Item as={Col} xs={24} lg={24} className='mt-4'>
+                                    <FlexboxGrid.Item as={Col} xs={24} lg={18} className='mt-4'>
                                         <InputMonthPay
                                             formValue={formValue}
                                             handleInputChange={handleInputChange}
                                             label="¿Cuánto abonarías mensualmente? (max 6)"
+                                        />
+                                    </FlexboxGrid.Item>
+                                    {/* age */}
+                                    <FlexboxGrid.Item as={Col} xs={24} lg={6} className='mt-4'>
+                                        <InputAge
+                                            formValue={formValue}
+                                            handleInputChange={handleInputChange}
+                                            label="Tu edad"
                                         />
                                     </FlexboxGrid.Item>
                                     {/* send or loaiding */}

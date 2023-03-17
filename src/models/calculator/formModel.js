@@ -5,6 +5,7 @@ const { StringType } = Schema.Types;
 const minSalary = 1;
 // const maxSalary = 20;
 const minRate = 1;
+const minAge = 1;
 
 const model = Schema.Model({
     salary: StringType()
@@ -21,6 +22,13 @@ const model = Schema.Model({
         .addRule((value, data) => {
             return !(/^[1-9]\d{0,1}\.{1,2}$/.test(value));
         }, 'Ingresa una tasa válida (example: 10, 10.51)')
+    ,
+    age: StringType()
+        .isRequired('Campo requerido')
+        .minLength(minAge, `Debe tener mínimo ${minAge} cifras`)
+        .addRule((value, data) => {
+            return !(/(^\D)|(^0)/.test(value));
+        }, 'Ingrese una edad válida')
 });
 
 export default model;

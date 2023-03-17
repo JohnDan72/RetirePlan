@@ -8,7 +8,8 @@ import AppRouter from './routes/AppRouter';
 const init = () => {
     return {
         user: JSON.parse(localStorage.getItem('userSession')) || { logged: false },
-        planData: (localStorage.getItem('planData')) ? JSON.parse(localStorage.getItem('planData')) : []
+        planData: (localStorage.getItem('planData')) ? JSON.parse(localStorage.getItem('planData')) : [],
+        MAX_AGE: 120
     }
     // return JSON.parse(localStorage.getItem('userSession')) || { logged: false };
 }
@@ -20,7 +21,7 @@ const MainApp = () => {
     const [theme, setTheme] = useState('dark');
 
     useEffect(() => {
-        console.log("reducerData-->",JSON.stringify(reducerData))
+        // console.log("reducerData-->",JSON.stringify(reducerData))
         if (!reducerData.user) return;
         localStorage.setItem('userSession', JSON.stringify(reducerData.user));
         localStorage.setItem('planData', JSON.stringify(reducerData.planData));
