@@ -107,9 +107,6 @@ const ResultPanel = () => {
                                             </Column>
                                         </Table>)
                                 }
-
-
-
                             </Panel>
                         </FlexboxGrid.Item>
                     ))

@@ -7,7 +7,7 @@ import { GeneralContext } from '../../../GeneralContext';
 
 // import styles
 import styles from "./FormCalculatorSecondary.module.css";
-import { BiExit, BiBarChartAlt, BiCalculator } from 'react-icons/bi';
+import { BiExit, BiCalculator } from 'react-icons/bi';
 // logo
 
 // hooks / models / helpers / my components
@@ -21,6 +21,7 @@ import { InputMonthPay } from '../input-types/InputMonthPay';
 import FlexboxGridItem from 'rsuite/esm/FlexboxGrid/FlexboxGridItem';
 import { InputAge } from '../input-types/InputAge';
 import { calculeRetPlan } from '../../../helpers/calculator-functions';
+import ModalChart from '../../ui/ModalChart';
 
 const propTypes = {};
 const defaultProps = {};
@@ -34,12 +35,11 @@ const FormCalculatorSecondary = () => {
         rate: "",
         month_pay: [],
         age: "",
-        chart_ready: false
     });
     const { status: status_error, error_msg } = formValue.error;
-    const { loading, salary, rate, month_pay, chart_ready, age } = formValue;
+    const { loading, salary, rate, month_pay, age } = formValue;
 
-    const { reducerData , dispatch } = useContext(GeneralContext);
+    const { reducerData, dispatch } = useContext(GeneralContext);
     const { MAX_AGE } = reducerData
 
     const handleSecondaryCalculator = (formStatus) => {
@@ -60,7 +60,7 @@ const FormCalculatorSecondary = () => {
                     const planData = calculeRetPlan(formValue, MAX_AGE)
                     console.log("Sucess!!!");
                     resetForm();
-                    dispatch({ type: types.start, payload:{ user: {status: userData}, planData } });
+                    dispatch({ type: types.start, payload: { user: { status: userData }, planData } });
                     navigate('/secondary-calculator');
                 });
 
@@ -172,22 +172,11 @@ const FormCalculatorSecondary = () => {
                                                     )
                                             }
                                         </FlexboxGrid.Item>
-                                        {
-                                            /* chart button */
-                                            chart_ready && (
-                                                <FlexboxGrid.Item as={Col} xs={20} lg={3} >
-                                                    <Button
-                                                        block
-                                                        color="violet"
-                                                        appearance="primary"
-                                                        endIcon={<BiBarChartAlt />}
-                                                    // onClick={handleEnd}
-                                                    >
-                                                        Gráfica
-                                                    </Button>
-                                                </FlexboxGrid.Item>
-                                            )
-                                        }
+                                        {/* chart button with modal*/}
+                                        <FlexboxGrid.Item as={Col} xs={20} lg={2} >
+                                            <ModalChart />
+                                        </FlexboxGrid.Item>
+
 
 
                                         {/* divider error message */}
