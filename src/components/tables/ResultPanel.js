@@ -50,11 +50,25 @@ const ResultPanel = () => {
 
 
     return (
-        <div className={`container animate__animated animate__bounceInLeft`}>
+        <div className={`container animate__animated animate__bounceInLeft mb-5`}>
+
             <FlexboxGrid justify="center" >
+                <FlexboxGrid.Item as={Col} xs={24} lg={24} className={`mt-3`} key={0}>
+                    <Message
+                        className="w-100"
+                        type="info"
+                        header="Tu plan de retiro es el siguiente:"
+                        message={(
+                            <>
+                                <h5>{`Deseas un salario de: $${data[0].salary}`}</h5>
+                                <h5>{`Invirtiendo tus ahorros a una tasa del: $${data[0].rate}`}</h5>
+                            </>
+                        )}
+                    />
+                </FlexboxGrid.Item>
                 {
                     data.map((item, index) => (
-                        <FlexboxGrid.Item as={Col} xs={24} lg={22} className={`mt-3`} key={index}>
+                        <FlexboxGrid.Item as={Col} xs={24} lg={24} className={`mt-3`} key={index}>
                             <Panel className={` ${styles.panelStyle}`} header={`Plan # ${(index + 1)}`} bordered >
                                 <h6 className='mb-4'>{`Meta slarial mensual: $${item.salary} | Tasa de rendimento: ${item.rate} | Abono mensual: ${item.month_pay}`}</h6>
                                 <h6 className='mb-4'>{`Tu ahorro anual es: ${item.annualSaving}`}</h6>
@@ -66,7 +80,7 @@ const ResultPanel = () => {
                                 }
                                 {
                                     !item.success ?
-                                        (<Message className="w-100" type="warning" header="Advertencia:" message={item.advice} />)
+                                        (<Message className="w-100" type="warning" header="Advertencia:" message={(<h5>{item.advice}</h5>)} />)
                                         :
                                         (<Table
                                             height={800}

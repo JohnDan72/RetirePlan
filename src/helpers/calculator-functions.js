@@ -60,7 +60,7 @@ export const calculeRetPlan = ({ salary = "$30,000.00", rate = "10.0", month_pay
 
     })
 
-    return response;
+    return response.sort((a,b) => b.breakDown.length - a.breakDown.length);
 
 }
 
