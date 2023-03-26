@@ -8,7 +8,7 @@ const propTypes = {};
 const defaultProps = {};
 
 
-const InputAge = ({ formValue, handleInputChange, label }) => {
+const InputAge = ({ formValue, handleInputChange, label, placeholder }) => {
     const { reducerData } = useContext(GeneralContext)
     const { MAX_AGE } = reducerData
     const { age } = formValue;
@@ -23,6 +23,7 @@ const InputAge = ({ formValue, handleInputChange, label }) => {
             name="age"
             id="id_age_input"
             label={label}
+            placeholder={placeholder}
             value={age}
             onChange={ageHandler} />
     );

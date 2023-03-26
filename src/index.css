@@ -65,6 +65,11 @@ html,body,#root, .rs-container, .rs-sidebar, .rs-sidenav{
   height: 16px;
 }
 
+/* notifications */
+.rs-notification-content {
+  padding: 20px;
+  max-width: 100% !important;
+}
 
 @media (max-width: 768px){    
   .hideNav {

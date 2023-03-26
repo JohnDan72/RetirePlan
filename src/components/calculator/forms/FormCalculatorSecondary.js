@@ -30,10 +30,10 @@ const FormCalculatorSecondary = () => {
     const navigate = useNavigate();
 
     const { formValue, handleInputChange, setFormError, setLoading, resetForm } = useForm({
-        salary: "5,000",
-        rate: "8",
-        month_pay: ["$1,500.00", "$4,500.52"],
-        age: "26",
+        salary: "",
+        rate: "",
+        month_pay: [],
+        age: "",
         chart_ready: false
     });
     const { status: status_error, error_msg } = formValue.error;
@@ -49,19 +49,19 @@ const FormCalculatorSecondary = () => {
 
             startUser(500)
                 .then(userData => {
-                    // if (month_pay.length < 1) { // check month pay length
-                    //     setFormError(true, 'Al menos debes agregar 1 abono mensual');
-                    //     return
-                    // }
-                    // if (rate < 1) { // check month pay length
-                    //     setFormError(true, 'Ingresa una tasa de rendimiento válida mayor igual a 1');
-                    //     return
-                    // }
-                    // const planData = calculeRetPlan(formValue, MAX_AGE)
-                    // console.log("Sucess!!!");
-                    // resetForm();
-                    // dispatch({ type: types.start, payload:{ user: {status: userData}, planData } });
-                    // navigate('/secondary-calculator');
+                    if (month_pay.length < 1) { // check month pay length
+                        setFormError(true, 'Al menos debes agregar 1 abono mensual');
+                        return
+                    }
+                    if (rate < 1) { // check month pay length
+                        setFormError(true, 'Ingresa una tasa de rendimiento válida mayor igual a 1');
+                        return
+                    }
+                    const planData = calculeRetPlan(formValue, MAX_AGE)
+                    console.log("Sucess!!!");
+                    resetForm();
+                    dispatch({ type: types.start, payload:{ user: {status: userData}, planData } });
+                    navigate('/secondary-calculator');
                 });
 
 
@@ -117,19 +117,21 @@ const FormCalculatorSecondary = () => {
                                 >
                                     <FlexboxGrid justify="center" className={`mt-4 mb-3 ${styles.vAEnd}`}>
                                         {/* salary */}
-                                        <FlexboxGrid.Item as={Col} xs={20} lg={5}>
+                                        <FlexboxGrid.Item as={Col} xs={20} lg={4}>
                                             <InputSalary
                                                 formValue={formValue}
                                                 handleInputChange={handleInputChange}
                                                 label="Sueldo mensual deseado"
+                                                placeholder="Ej: 4500"
                                             />
                                         </FlexboxGrid.Item>
                                         {/* rate */}
-                                        <FlexboxGrid.Item as={Col} xs={20} lg={2}>
+                                        <FlexboxGrid.Item as={Col} xs={20} lg={3}>
                                             <InputRate
                                                 formValue={formValue}
                                                 handleInputChange={handleInputChange}
                                                 label="Tasa"
+                                                placeholder="Ej: 10.5"
                                             />
                                         </FlexboxGrid.Item>
 
@@ -139,6 +141,7 @@ const FormCalculatorSecondary = () => {
                                                 formValue={formValue}
                                                 handleInputChange={handleInputChange}
                                                 label="Abono(s) mensual (max 6)"
+                                                placeholder="Ej: 1000"
                                             />
                                         </FlexboxGrid.Item>
                                         {/* age */}
@@ -147,6 +150,7 @@ const FormCalculatorSecondary = () => {
                                                 formValue={formValue}
                                                 handleInputChange={handleInputChange}
                                                 label="Edad"
+                                                placeholder="Ej: 20"
                                             />
                                         </FlexboxGrid.Item>
                                         {/* send or loaiding */}

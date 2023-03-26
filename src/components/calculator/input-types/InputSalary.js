@@ -7,7 +7,7 @@ const propTypes = {};
 const defaultProps = {};
 
 
-const InputSalary = ({ formValue, handleInputChange, label }) => {
+const InputSalary = ({ formValue, handleInputChange, label, placeholder }) => {
 
     const { salary } = formValue;
 
@@ -22,6 +22,7 @@ const InputSalary = ({ formValue, handleInputChange, label }) => {
             name="salary"
             id="id_salary_input"
             label={label}
+            placeholder={placeholder}
             value={salary}
             onChange={salaryHandler}
         />

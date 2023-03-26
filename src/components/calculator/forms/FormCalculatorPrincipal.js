@@ -31,10 +31,10 @@ const FormCalculatorPrincipal = () => {
     const navigate = useNavigate();
 
     const { formValue, handleInputChange, setFormError, setLoading, resetForm } = useForm({
-        salary: "5,000",
-        rate: "8",
-        month_pay: ["$1,500.00", "$4,500.52"],
-        age: "20"
+        salary: "15,000",
+        rate: "10.1",
+        month_pay: [],
+        age: "26"
     });
     const { status: status_error, error_msg } = formValue.error;
     const { loading, salary, rate, month_pay, age } = formValue;
@@ -123,6 +123,7 @@ const FormCalculatorPrincipal = () => {
                                             formValue={formValue}
                                             handleInputChange={handleInputChange}
                                             label="¿Cuánto te gustaría recibir mensualmente?"
+                                            placeholder="Ej: 4500"
                                         />
                                     </FlexboxGrid.Item>
                                     {/* rate */}
@@ -131,6 +132,7 @@ const FormCalculatorPrincipal = () => {
                                             formValue={formValue}
                                             handleInputChange={handleInputChange}
                                             label="Tasa de rendimiento"
+                                            placeholder="Ej: 10.5"
                                         />
                                     </FlexboxGrid.Item>
                                     {/* rate slider */}
@@ -146,6 +148,7 @@ const FormCalculatorPrincipal = () => {
                                             formValue={formValue}
                                             handleInputChange={handleInputChange}
                                             label="¿Cuánto abonarías mensualmente? (max 6)"
+                                            placeholder="Ej: 1000"
                                         />
                                     </FlexboxGrid.Item>
                                     {/* age */}
@@ -154,6 +157,7 @@ const FormCalculatorPrincipal = () => {
                                             formValue={formValue}
                                             handleInputChange={handleInputChange}
                                             label="Tu edad"
+                                            placeholder="Ej: 20"
                                         />
                                     </FlexboxGrid.Item>
                                     {/* send or loaiding */}

@@ -7,7 +7,7 @@ const propTypes = {};
 const defaultProps = {};
 
 
-const InputMonthPay = ({ formValue, handleInputChange, label }) => {
+const InputMonthPay = ({ formValue, handleInputChange, label, placeholder }) => {
 
     const { month_pay } = formValue;
 
@@ -30,7 +30,7 @@ const InputMonthPay = ({ formValue, handleInputChange, label }) => {
             id="id_month_pay_input"
             label={label}
             trigger={['Enter', 'Space', 'Comma']}
-            placeholder="Abono mesual (máximo 6 cifras)"
+            placeholder={placeholder}
             value={month_pay}
             onCreate={monthPayHandler}
             onClean={monthPayClenHandler}
