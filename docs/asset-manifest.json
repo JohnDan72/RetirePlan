@@ -12,8 +12,8 @@
     "static/css/2.3b35de73.chunk.css.map": "./static/css/2.3b35de73.chunk.css.map",
     "static/css/main.b64f4efa.chunk.css.map": "./static/css/main.b64f4efa.chunk.css.map",
     "static/js/2.9389e7e4.chunk.js.LICENSE.txt": "./static/js/2.9389e7e4.chunk.js.LICENSE.txt",
-    "./static/media/PrincipalCalculator.module.css": "./static/media/plan-fondo-1.ec55de8c.png",
-    "./static/media/retplan-logo.cb869e57.png": "./static/media/retplan-logo.cb869e57.png"
+    "static/media/PrincipalCalculator.module.css": "./static/media/plan-fondo-1.ec55de8c.png",
+    "static/media/retplan-logo.cb869e57.png": "./static/media/retplan-logo.cb869e57.png"
   },
   "entrypoints": [
     "static/js/runtime-main.f4d4341a.js",
